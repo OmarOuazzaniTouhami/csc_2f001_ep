@@ -37,8 +37,18 @@ void grid_init(char grid[], char pixel) {
     }
 }
 
+void grid_display(char grid[]) {
+    for (int i = 0; i<(nb_columns()*nb_lines()); i++) {
+        if (i%32 == 31) {
+            printf("%c\n", grid[i]);
+        } else {
+            printf("%c", grid[i]);
+        }
+    }
+}
+
 int main(int argc, char* argv[]) {    
     char grid[nb_columns()*nb_lines()];
     grid_init(grid, '*');
-    printf("%c\n", grid[0]);
+    grid_display(grid);
 }
