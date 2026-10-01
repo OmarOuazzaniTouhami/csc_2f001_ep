@@ -47,8 +47,14 @@ void grid_display(char grid[]) {
     }
 }
 
+void plot_point(char grid[], int x, int y, char pixel) {
+    int index = (nb_lines()-y-1)*(nb_columns())+x;
+    grid[index] = pixel;
+}
+
 int main(int argc, char* argv[]) {    
     char grid[nb_columns()*nb_lines()];
     grid_init(grid, '*');
+    plot_point(grid, 3, 1, ' ');
     grid_display(grid);
 }
