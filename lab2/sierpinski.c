@@ -23,11 +23,15 @@ void sort_insert(float tab[], int top, float val) {
     sort_insert_at(tab, i, top, val);
 }
 
+int nb_columns() {
+    return 32;
+}
+
+int nb_lines() {
+    return 16;
+}
+
 int main(int argc, char* argv[]) {    
-    float tab[5] = {1, 3, 5, 7, 0};
-    printf("Insert 0 at %d, 3.5 at %d, 10 at %d\n", sort_get_index(tab, 4, 0), sort_get_index(tab, 4, 3.5), sort_get_index(tab, 4, 10));
-    sort_insert(tab, 4, 2);
-    for(int i = 0; i<5; i++) {
-        printf("%f ", tab[i]);
-    }
+    printf("%d x %d grid\n", nb_columns(), nb_lines());
+    return 0;
 }
