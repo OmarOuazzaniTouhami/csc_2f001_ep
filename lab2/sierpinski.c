@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int sort_get_index(float tab[], int top, float val) {
     int i = 0;
@@ -49,12 +50,17 @@ void grid_display(char grid[]) {
 
 void plot_point(char grid[], int x, int y, char pixel) {
     int index = (nb_lines()-y-1)*(nb_columns())+x;
-    grid[index] = pixel;
+    if (x < 0 || y < 0 || x >= nb_columns() || y >= nb_lines()) {
+        printf("Error, coordinates not included in the grid.\n");
+        exit(EXIT_FAILURE);
+    } else {
+        grid[index] = pixel;
+    }
 }
 
 int main(int argc, char* argv[]) {    
     char grid[nb_columns()*nb_lines()];
     grid_init(grid, '*');
-    plot_point(grid, 3, 1, ' ');
+    plot_point(grid, 65, 65, ' ');
     grid_display(grid);
 }
