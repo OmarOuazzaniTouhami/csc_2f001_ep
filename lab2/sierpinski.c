@@ -58,9 +58,17 @@ void plot_point(char grid[], int x, int y, char pixel) {
     }
 }
 
+void plot_vline(char grid[], int x, float fy0, float fy1, char pixel) {
+    int y0 = fy0;
+    int y1 = fy1;
+    for (int y = y0; y <= y1; y++) {
+        plot_point(grid, x, y, pixel);
+    }
+}
+
 int main(int argc, char* argv[]) {    
     char grid[nb_columns()*nb_lines()];
-    grid_init(grid, '*');
-    plot_point(grid, 65, 65, ' ');
+    grid_init(grid, ' ');
+    plot_vline(grid, 1, 2, 3, '|');
     grid_display(grid);
 }
