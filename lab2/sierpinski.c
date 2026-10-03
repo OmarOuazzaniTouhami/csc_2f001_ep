@@ -69,12 +69,25 @@ void plot_vline(char grid[], int x, float fy0, float fy1, char pixel) {
     }
 }
 
+struct point {
+    float x;
+    float y;
+};
+
+void plot_poly_sweep(char grid[], struct point points[], int nb_points, int x, char pixel) {
+    printf("sweep %i:\n", x);
+}
+
+void plot_poly(char grid[], struct point points[], int nb_points, char pixel) {
+    for (int x = 0; x < nb_columns(); x++) {
+        plot_poly_sweep(grid, points, nb_points, x, pixel);
+    }
+}
+
 int main(int argc, char* argv[]) {    
     char grid[nb_columns()*nb_lines()];
     grid_init(grid, ' ');
-    plot_vline(grid, 2, 1.7, 3.3, '|');
-    plot_vline(grid, 3, 1.2, 3.8, '|');
-    plot_vline(grid, 7, 0.5, 1.5, '|');
-    plot_vline(grid, 1, 2, 3, '|');
+    struct point p[] = {{ 2, 13 }, { 10, 13 }, { 30, 7 }, { 10, 1 }, { 2, 1 }, { 18, 7 }};
+    plot_poly(grid, p, 6, '|');
     grid_display(grid);
 }
