@@ -3,11 +3,8 @@
 
 int sort_get_index(float tab[], int top, float val) {
     int i = 0;
-    while (tab[i] < val) {
+    while (i < top && tab[i] < val) {
         i++;
-        if (i == top) {
-            return top;
-        }
     }
     return i;
 }
@@ -90,6 +87,9 @@ void plot_poly_sweep(char grid[], struct point points[], int nb_points, int x, c
         printf(" %f", vlines[i]);
     }
     printf("\n");
+    for (int i=0; i<top-1; i+=2) {
+        plot_vline(grid, x, vlines[i], vlines[i+1], pixel);
+    }
 }
 
 void plot_poly(char grid[], struct point points[], int nb_points, char pixel) {
@@ -102,6 +102,6 @@ int main(int argc, char* argv[]) {
     char grid[nb_columns()*nb_lines()];
     grid_init(grid, ' ');
     struct point p[] = {{ 2, 13 }, { 10, 13 }, { 30, 7 }, { 10, 1 }, { 2, 1 }, { 18, 7 }};
-    plot_poly(grid, p, 6, '|');
+    plot_poly(grid, p, 6, '-');
     grid_display(grid);
 }
