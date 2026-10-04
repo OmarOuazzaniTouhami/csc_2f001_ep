@@ -78,7 +78,9 @@ void plot_poly_sweep(char grid[], struct point points[], int nb_points, int x, c
     printf("sweep %i:", x);
     int j = nb_points-1;
     for (int i = 0; i < nb_points; i++) {
-        printf(" (%i, %i)", j, i);
+        if ((points[i].x <= x && x <= points[j].x) || (points[j].x <= x && x <= points[i].x)) {
+            printf(" %f", points[i].y + (x - points[i].x) * (points[j].y - points[i].y) / (points[j].x - points[i].x));
+        }
         j = i;
     }
     printf("\n");
