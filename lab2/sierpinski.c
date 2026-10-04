@@ -105,3 +105,4 @@ int main(int argc, char* argv[]) {
     plot_poly(grid, p, 6, '-');
     grid_display(grid);
 }
+// a random useless comment
