@@ -75,13 +75,19 @@ struct point {
 };
 
 void plot_poly_sweep(char grid[], struct point points[], int nb_points, int x, char pixel) {
+    float vlines[nb_points*4];
+    int top = 0;
     printf("sweep %i:", x);
     int j = nb_points-1;
     for (int i = 0; i < nb_points; i++) {
         if ((points[i].x <= x && x <= points[j].x) || (points[j].x <= x && x <= points[i].x)) {
-            printf(" %f", points[i].y + (x - points[i].x) * (points[j].y - points[i].y) / (points[j].x - points[i].x));
+            sort_insert(vlines, top, points[i].y + (x - points[i].x) * (points[j].y - points[i].y) / (points[j].x - points[i].x));
+            top++;
         }
         j = i;
+    }
+    for (int i=0; i<top; i++) {
+        printf(" %f", vlines[i]);
     }
     printf("\n");
 }
