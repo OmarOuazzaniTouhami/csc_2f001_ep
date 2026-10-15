@@ -2,13 +2,16 @@
 #include "monster.h"
 
 int main(int argc, char *argv[]) {
-    struct monster *m = create_monster("Pikachu", 50);
-    if (m == NULL) {
-        printf("Error: could not create monster\n");
-        return 1;
+    struct monster *army[10];
+    for (int i = 0; i < 10; i++) {
+        army[i] = create_monster("Pikachu", 50);
     }
-    display_monster(m);
-    delete_monster(m);
+    for (int i = 0; i < 10; i++) {
+       display_monster(army[i]);
+    }
+    for (int i = 0; i < 10; i++) {
+        delete_monster(army[i]);
+    }
 }
 
 
