@@ -7,7 +7,7 @@ struct monster *create_monster(char *name, int hp) {
     if (m == NULL) {
         return NULL;
     }
-    m->name = name;
+    snprintf(m->name, sizeof(m->name), "%s", name);
     m->hp = hp;
     return m;
 }
