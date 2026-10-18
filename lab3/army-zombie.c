@@ -4,39 +4,41 @@
 #include "army.h"
 #include "monster.h"
 
+struct node {
+    struct monster *monster;
+    struct node *next;
+};
+
 struct army {
-  struct monster** monsters; 
-  int top;                   
-  int capacity;    
+  struct node *first;
+  struct node *last;
+  int top;                      
   int stars;          
 };
 
 struct army *create_army(void) {
     struct army *a = malloc(sizeof(struct army));
-    if (a == NULL)
-        return NULL;
-
-    a->monsters = NULL;
+    a->first = NULL;
+    a->last = NULL;
     a->stars = 0;
     a->top = 0;
-    a->capacity = 0;
     return a;
 }
 
 int add_monster_to_army(struct army *a, struct monster *m) {
-    if (a == NULL || m == NULL)
+    if (a == NULL || m == NULL) {
         return -1;
-
-    if (a->top == a->capacity) {
-        int new_capacity = (a->capacity == 0) ? 1 : a->capacity * 2;
-        struct monster **tmp =
-            realloc(a->monsters, new_capacity * sizeof(struct monster *));
-        if (tmp == NULL)
-            return -1;
-        a->monsters = tmp;
-        a->capacity = new_capacity;
     }
-    a->monsters[a->top] = m;
+
+    struct node *n = malloc(sizeof(struct node));
+    n->monster = m;
+    n->next = NULL;
+    if (a->last == NULL) {
+        a->first = n;
+    } else {
+        a->last->next = n;
+    }
+    a->last = n;
     a->top++;
     return 0;
 }
@@ -45,15 +47,21 @@ void display_army(struct army *a) {
     if (a == NULL)
         return;
     printf("This is a %d stars army.\n", a->stars);
-    printf("An army of %d monsters, capacity of %d\n", a->top, a->capacity);
-    for (int i = 0; i < a->top; i++)
-        display_monster(a->monsters[i]);
+    printf("An army of %d monsters.\n", a->top);
+    for (struct node *n = a->first; n!=NULL; n = n->next) {
+        display_monster(n->monster);
+    }
 }
 
 void delete_army(struct army *a) {
     if (a == NULL)
         return;
 
-    free(a->monsters);
+    struct node *n = a->first;
+    while (n != NULL) {
+        struct node *next = n->next;
+        free(n);
+        n = next;
+    }
     free(a);
 }
