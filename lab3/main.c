@@ -5,15 +5,18 @@
 int main(int argc, char *argv[]) {
     struct army *army = create_army();
     char buf[32];
+    struct monster *monsters[10];
+
     for (int i = 0; i < 10; i++) {
         snprintf(buf, sizeof(buf), "Pikachu-%d", i);
-        add_monster_to_army(army, create_monster(buf, 50));
+        monsters[i] = create_monster(buf, 50);
+        add_monster_to_army(army, monsters[i]);
     }
 
     display_army(army);
 
-    for (int i = 0; i < army->top; i++) {
-        delete_monster(army->monsters[i]);
+    for (int i = 0; i < 10; i++) {
+        delete_monster(monsters[i]);
     }
     delete_army(army);
 }

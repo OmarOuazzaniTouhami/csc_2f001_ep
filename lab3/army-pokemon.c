@@ -4,6 +4,13 @@
 #include "army.h"
 #include "monster.h"
 
+struct army {
+  struct monster** monsters; 
+  int top;                   
+  int capacity;    
+  int stars;          
+};
+
 struct army *create_army(void) {
     struct army *a = malloc(sizeof(struct army));
     if (a == NULL)
