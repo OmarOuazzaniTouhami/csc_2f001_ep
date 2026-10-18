@@ -3,13 +3,13 @@
 .PHONY: all clean  # these targets are not files (even if a file named "all" or "clean" exists, the rule is applied)
 
 LDFLAGS=
-LIBS= 
+LIBS=
 CFLAGS=-Wall -Werror -g
-BIN=army-pokemon
+BIN=army-pokemon army-zombie
 
 all: $(BIN)
 
-army-pokemon: main.o monster.o army-pokemon.o
+army-%: main.o monster.o army-%.o
 	gcc $(LDFLAGS) -o $@ $^ $(LIBS)
 
 %.o: %.c monster.h army.h
