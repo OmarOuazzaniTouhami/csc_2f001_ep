@@ -23,7 +23,6 @@ int main() {
     location_t sansebastian { "San Sebastian", 0.756048, -0.034579 };
     location_t pampelune { "Pampelune", 0.74722, -0.0287242 };
     location_t bilbao { "Bilbao", 0.755082, -0.0512252 };
-    std::cout << "Hello world !!!" << std::endl;
     palaiseau.set_neighbors(new location_t*[] { &paris, nullptr });
     paris.set_neighbors(new location_t*[] { &palaiseau, &lemans, &orleans, &reims, &dijon, nullptr });
     reims.set_neighbors(new location_t*[] { &strasbourg, &dijon, nullptr });
@@ -45,4 +44,5 @@ int main() {
     sansebastian.set_neighbors(new location_t*[] { &bayonne, &pampelune, &bilbao, nullptr });
     pampelune.set_neighbors(new location_t*[] { &bilbao, &sansebastian, &pau, nullptr });
     bilbao.set_neighbors(new location_t*[] { &sansebastian, &pampelune, nullptr });
+    std::cout << paris.distance_to(&palaiseau) << std::endl;
 } 
