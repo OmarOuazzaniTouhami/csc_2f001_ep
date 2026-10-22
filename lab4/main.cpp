@@ -24,4 +24,25 @@ int main() {
     location_t pampelune { "Pampelune", 0.74722, -0.0287242 };
     location_t bilbao { "Bilbao", 0.755082, -0.0512252 };
     std::cout << "Hello world !!!" << std::endl;
+    palaiseau.set_neighbors(new location_t*[] { &paris, nullptr });
+    paris.set_neighbors(new location_t*[] { &palaiseau, &lemans, &orleans, &reims, &dijon, nullptr });
+    reims.set_neighbors(new location_t*[] { &strasbourg, &dijon, nullptr });
+    strasbourg.set_neighbors(new location_t*[] { &reims, &dijon, nullptr });
+    dijon.set_neighbors(new location_t*[] { &reims, &paris, &bourges, nullptr });
+    lemans.set_neighbors(new location_t*[] { &orleans, &tours, &angers, nullptr });
+    orleans.set_neighbors(new location_t*[] { &lemans, &paris, &bourges, &tours, nullptr });
+    angers.set_neighbors(new location_t*[] { &lemans, &tours, &poitiers, nullptr });
+    tours.set_neighbors(new location_t*[] { &angers, &lemans, &orleans, &bourges, &poitiers, nullptr });
+    bourges.set_neighbors(new location_t*[] { &limoges, &tours, &orleans, nullptr });
+    poitiers.set_neighbors(new location_t*[] { &limoges, &angouleme, nullptr });
+    limoges.set_neighbors(new location_t*[] { &agen, &angouleme, &poitiers, nullptr });
+    angouleme.set_neighbors(new location_t*[] { &poitiers, &limoges, &agen, &bordeaux, nullptr });
+    bordeaux.set_neighbors(new location_t*[] { &angouleme, &agen, &bayonne, nullptr });
+    agen.set_neighbors(new location_t*[] { &toulouse, &pau, &bordeaux, &angouleme, &limoges, nullptr });
+    toulouse.set_neighbors(new location_t*[] { &agen, &pau, nullptr });
+    bayonne.set_neighbors(new location_t*[] { &bordeaux, &pau, &sansebastian, nullptr });
+    pau.set_neighbors(new location_t*[] { &pampelune, &bayonne, &agen, &toulouse, nullptr });
+    sansebastian.set_neighbors(new location_t*[] { &bayonne, &pampelune, &bilbao, nullptr });
+    pampelune.set_neighbors(new location_t*[] { &bilbao, &sansebastian, &pau, nullptr });
+    bilbao.set_neighbors(new location_t*[] { &sansebastian, &pampelune, nullptr });
 } 
