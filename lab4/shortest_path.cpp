@@ -64,3 +64,12 @@ void shortest_path_t::display() {
                   << " km from " << from->name << std::endl;
     }
 }
+
+shortest_path_t::~shortest_path_t() {
+    node_t* n = head;
+    while (n != nullptr) {
+        node_t* next = n->next;
+        delete n;
+        n = next;
+    }
+}

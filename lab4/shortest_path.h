@@ -21,6 +21,7 @@ struct shortest_path_t {
     shortest_path_t(location_t* from, location_t* to);
     void compute();
     void display();
+    ~shortest_path_t();
 };
 
 #endif
