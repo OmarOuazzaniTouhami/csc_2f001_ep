@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 
 struct location_t {
@@ -12,4 +13,3 @@ struct location_t {
     double distance_to(location_t* to);
     ~location_t();
 };
-
