@@ -29,3 +29,18 @@ struct node_t {
         error("as_list : this node is not a list");
     }
 };
+
+struct integer_t : node_t {
+    uintptr_t  value;
+
+    integer_t(uintptr_t v) : value {v} {}
+
+    std::string to_string() override {
+        return std::to_string(value);
+    }
+};
+
+int main() {
+    node_t* ast = new integer_t { 3 };
+    std::cout << ast->to_string() << " => " << ast->eval()->to_string() << std::endl;
+}
