@@ -49,9 +49,62 @@ struct list_t : node_t {
         elements {nullptr},
         nb_elements {0},
         capacity {0} {}
+
+    list_t* as_list() override {
+        return this;
+    }
+
+    size_t size() {
+        return nb_elements;
+    }
+
+    node_t* at(size_t i) {
+        if (i >= nb_elements) {
+            error("i is too big");
+        }
+        return elements[i];
+    }
+
+    void set_at(size_t i, node_t* value) {
+        if (i >= nb_elements) {
+            error("i is is too big");
+        }
+        elements[i] = value;
+    }
+
+    void append(node_t* value) {
+        if (nb_elements == capacity) {
+            size_t new_capacity = (capacity == 0) ? 4 : capacity * 2;
+            node_t** new_elements = new node_t*[new_capacity];
+            for (size_t i = 0; i < nb_elements; i++) {
+                new_elements[i] = elements[i];
+            }
+            capacity = new_capacity;
+            elements = new_elements;
+        }
+        elements[nb_elements] = value;
+        nb_elements ++;
+    }
+
+    std::string to_string() override {
+        std::string result = "(";
+        for (size_t i = 0; i < nb_elements; i++) {
+            if (i>0) {
+                result += " ";
+            }
+            result += elements[i]->to_string();
+        }
+        result += ")";
+        return result;
+    }
 };
 
 int main() {
-    node_t* ast = new integer_t { 3 };
-    std::cout << ast->to_string() << " => " << ast->eval()->to_string() << std::endl;
+    list_t* ast = new list_t;
+
+    ast->append(new integer_t { 1 });
+    ast->append(new integer_t { 2 });
+    ast->append(new integer_t { 3 });
+
+    std::cout << ast->to_string() << std::endl; // should output (1 2 3)
 }
