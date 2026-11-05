@@ -40,6 +40,17 @@ struct integer_t : node_t {
     }
 };
 
+struct list_t : node_t {
+    node_t** elements;
+    size_t nb_elements;
+    size_t capacity;
+
+    list_t():
+        elements {nullptr},
+        nb_elements {0},
+        capacity {0} {}
+};
+
 int main() {
     node_t* ast = new integer_t { 3 };
     std::cout << ast->to_string() << " => " << ast->eval()->to_string() << std::endl;
