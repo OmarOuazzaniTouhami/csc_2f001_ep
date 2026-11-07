@@ -99,6 +99,16 @@ struct list_t : node_t {
     }
 };
 
+struct keryword_t {
+    std::string id;
+
+    keyword_t(std::string id): id {id} {}
+
+    std::string to_string() {
+        return "<"+id+">";
+    }
+}
+
 int main() {
     list_t* ast = new list_t;
 
