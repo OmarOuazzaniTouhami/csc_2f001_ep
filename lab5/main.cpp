@@ -126,4 +126,5 @@ int main() {
 
     std::cout << ast->to_string() << " => " << ast->eval()->to_string() << std::endl;
     // should output (<+> (<+> 1 2) 3)
+    // Ex4.1 : Since the eval function is not redefined for list_t
 }
