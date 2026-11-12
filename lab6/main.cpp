@@ -2,6 +2,13 @@
 #include "treemap.h"
 
 int main() {
-    treemap_t<std::string, double>::pair_t pair  = {"Tyrion", 2.0};
-    std::cout << pair.key << ": " << pair.value << "€" << std::endl;
+    treemap_t<std::string, double> map;
+    std::string name;
+
+    name = "Tyrion";
+    map.lookup(&map.root, nullptr, &name, true);
+    name = "Jaime";
+    map.lookup(&map.root, nullptr, &name, true);
+    name = "Cersei";
+    map.lookup(&map.root, nullptr, &name, true);
 }
