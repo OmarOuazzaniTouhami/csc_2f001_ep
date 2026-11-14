@@ -32,6 +32,10 @@ struct node_t {
     virtual uintptr_t int_value() {
         error("int_value: this node is not an integer");
     }
+
+    virtual bool is(std::string id) {
+        return false;
+    }
 };
 
 struct integer_t : node_t {
@@ -131,6 +135,23 @@ struct add_t : keyword_t {
     }
 
     add_t(): keyword_t("+") {}
+};
+
+struct symbol_t : node_t {
+    std::string id;
+
+    bool is(std::string id) {
+        if (this->id == id) {
+            return true;
+        }
+        return false;
+    }
+
+    std::string to_string() {
+        return "<"+id+">";
+    }
+
+    symbol_t(std::string id) : id {id} {}
 };
 
 int main() {
