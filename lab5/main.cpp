@@ -12,12 +12,15 @@ void error(std::string str) {
   exit(1);
 }
 
+struct list_t;
+struct frame_t;
+
 struct node_t {
-    virtual node_t* eval() {
+    virtual node_t* eval(frame_t* frame) {
         return this;
     }
 
-    virtual node_t* apply(list_t* list) {
+    virtual node_t* apply(list_t* list, frame_t* frame) {
         error("apply: this node cannot be applied");
     }
 
@@ -43,7 +46,7 @@ struct integer_t : node_t {
 
     integer_t(uintptr_t v) : value {v} {}
 
-    std::string to_string() override {
+    std::string to_string() {
         return std::to_string(value);
     }
 
@@ -110,8 +113,10 @@ struct list_t : node_t {
         return result;
     }
 
-    node_t* eval() {
-        return elements[0]->eval()->apply(this);
+    node_t* eval(frame_t* frame) override {
+        if (nb_elements == 0)
+            error("eval: cannot evaluate an empty list");
+        return elements[0]->eval(frame)->apply(this, frame);
     }
 };
 
@@ -126,12 +131,11 @@ struct keyword_t : node_t {
 };
 
 struct add_t : keyword_t {
-    node_t* apply(list_t* list) {
+    node_t* apply(list_t* list, frame_t* frame) override {
         uintptr_t sum = 0;
-        for (size_t i = 1; i < list->size(); i++) {
-            sum += list->at(i)->eval()->int_value();
-        }
-        return new integer_t{sum};
+        for (size_t i = 1; i < list->size(); i++)
+            sum += list->at(i)->eval(frame)->int_value();
+        return new integer_t { sum };
     }
 
     add_t(): keyword_t("+") {}
@@ -183,9 +187,18 @@ struct frame_t : list_t {
 int main() {
     frame_t* frame = new frame_t;
 
-    frame->set(new symbol_t { "a" }, new integer_t { 666 });
-    frame->set(new symbol_t { "b" }, new integer_t { 21 });
-    frame->set(new symbol_t { "a" }, new integer_t { 42 });
+    // (<+> 1 2)
+    list_t* inner = new list_t;
+    inner->append(new add_t);
+    inner->append(new integer_t { 1 });
+    inner->append(new integer_t { 2 });
 
-    std::cout << frame->to_string() << ": a=" << frame->get(new symbol_t { "a" })->to_string() << std::endl;
+    // (<+> (<+> 1 2) 3)
+    list_t* ast = new list_t;
+    ast->append(new add_t);
+    ast->append(inner);
+    ast->append(new integer_t { 3 });
+
+    std::cout << ast->to_string() << " => " << ast->eval(frame)->to_string() << std::endl;
+    return 0;
 }
