@@ -155,7 +155,6 @@ struct symbol_t : node_t {
 };
 
 struct frame_t : list_t {
-    struct frame_t : list_t {
     void set(node_t* sym, node_t* value) {
         std::string name = sym->to_string();
 
@@ -185,7 +184,7 @@ struct frame_t : list_t {
         error("get: unknown symbol " + name);
     }
 };
-}
+
 
 int main() {
     node_t* add = new add_t;
