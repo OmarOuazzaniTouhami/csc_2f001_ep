@@ -97,6 +97,10 @@ struct list_t : node_t {
         result += ")";
         return result;
     }
+
+    node_t* eval() {
+        return elements[0]->eval()->apply(this);
+    }
 };
 
 struct keyword_t : node_t {
