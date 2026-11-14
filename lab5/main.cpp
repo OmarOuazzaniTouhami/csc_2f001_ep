@@ -187,17 +187,11 @@ struct frame_t : list_t {
 
 
 int main() {
-    node_t* add = new add_t;
-    list_t* ast = new list_t;
+    frame_t* frame = new frame_t;
 
-    ast->append(add);
-    ast->append(new list_t);
-    ast->at(1)->as_list()->append(add);
-    ast->at(1)->as_list()->append(new integer_t { 1 });
-    ast->at(1)->as_list()->append(new integer_t { 2 });
-    ast->append(new integer_t { 3 });
+    frame->set(new symbol_t { "a" }, new integer_t { 666 });
+    frame->set(new symbol_t { "b" }, new integer_t { 21 });
+    frame->set(new symbol_t { "a" }, new integer_t { 42 });
 
-    std::cout << ast->to_string() << " => " << ast->eval()->to_string() << std::endl;
-    // should output (<+> (<+> 1 2) 3)
-    // Ex4.1 : Since the eval function is not redefined for list_t
+    std::cout << frame->to_string() << ": a=" << frame->get(new symbol_t { "a" })->to_string() << std::endl;
 }
