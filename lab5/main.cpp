@@ -189,6 +189,19 @@ node_t* symbol_t::eval(frame_t* frame) {
     return frame->get(this);
 }
 
+struct set_t : keyword_t {
+    set_t() : keyword_t("set!") {}
+
+    node_t* apply(list_t* list, frame_t* frame) override {
+        if (list->size() != 3)
+            error("set!: expected a variable and a value");
+
+        node_t* value = list->at(2)->eval(frame);
+        frame->set(list->at(1), value);
+        return value;
+    }
+};
+
 
 int main() {
     node_t* add = new add_t;
