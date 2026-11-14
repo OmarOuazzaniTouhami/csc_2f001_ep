@@ -154,6 +154,39 @@ struct symbol_t : node_t {
     symbol_t(std::string id) : id {id} {}
 };
 
+struct frame_t : list_t {
+    struct frame_t : list_t {
+    void set(node_t* sym, node_t* value) {
+        std::string name = sym->to_string();
+
+        for (size_t i = 0; i < size(); i++) {
+            list_t* entry = at(i)->as_list();
+            if (entry->at(0)->is(name)) {
+                entry->set_at(1, value);
+                return;
+            }
+        }
+
+        list_t* entry = new list_t;
+        entry->append(sym);
+        entry->append(value);
+        append(entry);
+    }
+
+    node_t* get(node_t* sym) {
+        std::string name = sym->to_string();
+
+        for (size_t i = 0; i < size(); i++) {
+            list_t* entry = at(i)->as_list();
+            if (entry->at(0)->is(name))
+                return entry->at(1);
+        }
+
+        error("get: unknown symbol " + name);
+    }
+};
+}
+
 int main() {
     node_t* add = new add_t;
     list_t* ast = new list_t;
