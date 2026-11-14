@@ -28,6 +28,10 @@ struct node_t {
     virtual list_t* as_list() {
         error("as_list : this node is not a list");
     }
+
+    virtual uintptr_t int_value() {
+        error("int_value: this node is not an integer");
+    }
 };
 
 struct integer_t : node_t {
@@ -37,6 +41,10 @@ struct integer_t : node_t {
 
     std::string to_string() override {
         return std::to_string(value);
+    }
+
+    uintptr_t int_value() override {
+        return value;
     }
 };
 
@@ -114,6 +122,14 @@ struct keyword_t : node_t {
 };
 
 struct add_t : keyword_t {
+    node_t* apply(list_t* list) {
+        uintptr_t sum = 0;
+        for (size_t i = 1; i < list->size(); i++) {
+            sum += list->at(i)->eval()->int_value();
+        }
+        return new integer_t{sum};
+    }
+
     add_t(): keyword_t("+") {}
 };
 
