@@ -155,6 +155,8 @@ struct symbol_t : node_t {
         return id;
     }
 
+    node_t* eval(frame_t* frame) override; 
+
     symbol_t(std::string id) : id {id} {}
 };
 
@@ -183,22 +185,26 @@ struct frame_t : list_t {
     }
 };
 
+node_t* symbol_t::eval(frame_t* frame) {
+    return frame->get(this);
+}
+
 
 int main() {
+    node_t* add = new add_t;
+    symbol_t* a = new symbol_t { "a" };
     frame_t* frame = new frame_t;
 
-    // (<+> 1 2)
-    list_t* inner = new list_t;
-    inner->append(new add_t);
-    inner->append(new integer_t { 1 });
-    inner->append(new integer_t { 2 });
+    frame->set(a, new integer_t { 37 });
 
-    // (<+> (<+> 1 2) 3)
     list_t* ast = new list_t;
-    ast->append(new add_t);
-    ast->append(inner);
+
+    ast->append(add);
+    ast->append(new list_t);
+    ast->at(1)->as_list()->append(add);
+    ast->at(1)->as_list()->append(a);
+    ast->at(1)->as_list()->append(new integer_t { 2 });
     ast->append(new integer_t { 3 });
 
     std::cout << ast->to_string() << " => " << ast->eval(frame)->to_string() << std::endl;
-    return 0;
 }
