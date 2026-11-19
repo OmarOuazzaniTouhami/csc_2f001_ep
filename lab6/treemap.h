@@ -64,4 +64,30 @@ struct treemap_t {
         display_r(root, "");
     }
 
+    struct iterator_t {
+        node_t* cur;
+
+        iterator_t(node_t* root): cur {root} {
+            if (cur != nullptr) {
+                while (cur->left != nullptr) {
+                    cur = cur->left;
+            }
+            }
+        }
+
+        void next() {
+            if (cur->right != nullptr) {
+                cur = cur->right;
+                while (cur->left != nullptr) {
+                    cur = cur->left;
+                }
+            } else {
+                while (cur->parent != nullptr && cur == cur->parent->right) {
+                    cur = cur->parent;
+                }
+                cur = cur->parent;
+            }
+        }
+    };
+
 };
