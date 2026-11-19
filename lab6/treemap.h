@@ -36,4 +36,18 @@ struct treemap_t {
             return lookup(&cur->right, cur, key, create);
         }
     }
+
+    void set_at(const K key, const V value) {
+        node_t* node = lookup(&root, nullptr, &key, true);
+        node->value = value;
+    }
+
+    V at(const K key) {
+        node_t* node = lookup(&root, nullptr, &key, false);
+        if (node == nullptr) {
+            std::cout << "The Node does not exists" << std::endl;
+            exit(1);
+        }
+        return node->value;
+    }
 };
