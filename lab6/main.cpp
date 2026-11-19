@@ -16,4 +16,5 @@ int main() {
     map.set_at("Willem", 6);
 
     std::cout << map.at("Kevan") << std::endl;
+    map.display();
 }
