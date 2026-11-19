@@ -90,4 +90,9 @@ struct treemap_t {
         }
     };
 
+    iterator_t begin() {
+        iterator_t iterator = iterator_t {root};
+        return iterator;
+    }
+
 };
